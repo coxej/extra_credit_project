@@ -1,0 +1,19 @@
+FROM ubuntu:18.04
+RUN apt-get update
+RUN apt-get install -y sudo
+RUN apt-get install -y apt-transport-https
+RUN apt-get install -y wget
+RUN apt-get install -y unzip
+RUN apt-get install -y mysql-server
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y tomcat8
+RUN /etc/init.d/tomcat8 stop
+RUN echo 'JAVA_OPTS=”-Djava.awt.headless=true -Xmx2g -XX:+UseConcMarkSweepGC”' >> /etc/default/tomcat8
+RUN wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar
+RUN cp mysql-connector-java-8.0.19.jar /var/lib/tomcat8/lib/
+RUN wget https://github.com/UniTime/unitime/releases/download/v4.1.175/unitime-4.1_bld175.zip
+RUN unzip unitime-4.1_bld175.zip -d unitime
+COPY . /code
+WORKDIR /code
+RUN javac app.java
+CMD java app
