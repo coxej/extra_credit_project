@@ -16,3 +16,7 @@ Dockerfile2:
 
 Dockerfile3:
   I tried to alter what I did in Dockerfile2 and do some additional setup for the tomcat. It would also say it started the server but it would not actually work.
+
+
+
+*** To install this program locally, one would simple navigate to http://help.unitime.org/Timetabling_Installation and select the operating system they will installing it on.
