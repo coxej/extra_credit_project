@@ -11,4 +11,8 @@ Dockerfile1:
   
   
 Dockerfile2:
+  I tried to pull mysql and tomcat images instead of installing them on ubuntu image, this ran into a fatal error with the JDBC connection. It would still say it started the server but I could not get the app to load in a browser.
+  
+
+Dockerfile3:
   
