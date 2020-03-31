@@ -15,4 +15,4 @@ Dockerfile2:
   
 
 Dockerfile3:
-  
+  I tried to alter what I did in Dockerfile2 and do some additional setup for the tomcat. It would also say it started the server but it would not actually work.
