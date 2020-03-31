@@ -19,4 +19,4 @@ Dockerfile3:
 
 
 
-*** To install this program locally, one would simple navigate to http://help.unitime.org/Timetabling_Installation and select the operating system they will installing it on.
+*** To install this program locally, one would simple navigate to http://help.unitime.org/Timetabling_Installation and select the operating system they will be installing it on.
