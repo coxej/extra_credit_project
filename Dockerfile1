@@ -1,0 +1,27 @@
+FROM ubuntu:18.04
+RUN apt-get update
+RUN apt-get install -y sudo
+RUN apt-get install -y apt-transport-https
+RUN apt-get install -y wget
+RUN apt-get install -y unzip
+RUN apt-get install -y mysql-server
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y tomcat8
+RUN /etc/init.d/tomcat8 stop
+RUN wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.19/mysql-connector-java-8.0.19.jar
+RUN echo 'JAVA_OPTS=”-Djava.awt.headless=true -Xmx2g -XX:+UseConcMarkSweepGC”' >> /etc/default/tomcat8
+RUN cp mysql-connector-java-8.0.19.jar /var/lib/tomcat8/lib/
+RUN wget https://github.com/UniTime/unitime/releases/download/v4.1.175/unitime-4.1_bld175.zip
+RUN unzip unitime-4.1_bld175.zip -d unitime
+RUN mysql -uroot -p -f <unitime/doc/mysql/schema.sql
+RUN mysql -utimetable -punitime <unitime/doc/mysql/woebegon-data.sql
+RUN mkdir /var/lib/tomcat8/data
+RUN chown tomcat8 /var/lib/tomcat8/data
+RUN cp unitime/web/UniTime.war /var/lib/tomcat8/webapps
+RUN touch /etc/tomcat8/unitime.properties
+RUN chown tomcat8 /etc/tomcat8/unitime.properties
+RUN apt-get install authbind
+RUN touch /etc/authbind/byport/80
+RUN chmod 500 /etc/authbind/byport/80
+RUN chown tomcat8 /etc/authbind/byport/80
+CMD /etc/init.d/tomcat8 start

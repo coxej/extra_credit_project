@@ -1,0 +1,24 @@
+FROM mysql:5.5
+ENV MYSQL_ROOT_PASSWORD=Lollipop1!
+RUN apt-get update
+RUN apt-get install -y wget unzip
+RUN wget https://github.com/UniTime/unitime/releases/download/v4.1.175/unitime-4.1_bld175.zip
+RUN unzip unitime-4.1_bld175.zip -d unitime
+RUN cp unitime/doc/mysql/schema.sql /docker-entrypoint-initdb.d/
+RUN cp unitime/doc/mysql/woebegon-data.sql /docker-entrypoint-initdb.d/
+VOLUME /var/lib/mysql
+EXPOSE 3306
+
+
+
+FROM tomcat:8-jre8-slim
+RUN apt-get update
+RUN apt-get install -y wget unzip
+RUN wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar
+RUN echo 'JAVA_OPTS=”-Djava.awt.headless=true -Xmx2g -XX:+UseConcMarkSweepGC”' >> /etc/default/tomcat8
+RUN cp mysql-connector-java-5.1.38.jar /usr/local/tomcat/lib
+RUN mkdir /usr/local/tomcat/data
+RUN wget https://github.com/UniTime/unitime/releases/download/v4.1.175/unitime-4.1_bld175.zip
+RUN unzip unitime-4.1_bld175.zip -d unitime
+RUN cp unitime/web/UniTime.war /usr/local/tomcat/webapps
+EXPOSE 8080
